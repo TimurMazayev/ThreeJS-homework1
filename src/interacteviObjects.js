@@ -56,7 +56,6 @@ class InteractiveObjects {
         }
         const scale = Math.random() - 0.7;
         //TODO Get values from inputs
-        console.log('0000', this.inputX);
         opt3d.position.x = randomNumber(-1, 1) * this.inputX;
         opt3d.position.y = randomNumber(-1, 1) * this.inputY;
         opt3d.position.z = randomNumber(-1, 1) * this.inputZ;
