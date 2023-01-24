@@ -6,9 +6,6 @@ import InteractiveObjects from './interacteviObjects';
 class Scene {
   constructor(scene, camera, fov = 75, controls, renderer) {
     this.canvas = document.querySelector('.canvas');
-    this.inputX = document.querySelector('#x_input').value;
-    this.inputY = document.querySelector('#y_input').value;
-    this.inputZ = document.querySelector('#z_input').value;
     this.scene = scene;
     this.camera = camera;
     this.fov = fov;
@@ -24,7 +21,6 @@ class Scene {
 
     //Light
     this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    this.spotLight = new THREE.SpotLight(0xffffff, 0.77);
 
     window.addEventListener('resize', () => this.onWindowResize(), false);
   }
@@ -66,9 +62,9 @@ class Scene {
   }
 }
 
-let scene = new Scene();
-scene.initScene();
-scene.animate();
+let mainScene = new Scene();
+mainScene.initScene();
+mainScene.animate();
 
-new InteractiveObjects(scene.scene);
+new InteractiveObjects(mainScene.scene);
 

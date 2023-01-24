@@ -24,47 +24,6 @@ class InteractiveObjects {
     const count = 100;
 
     //Adding objects with textures
-    for (let i = 0; i < count; i++) {
-      const randomTextureNumber = Math.floor(Math.random() * 10 + 1.5);
-
-      const boxMaterial = new THREE.MeshMatcapMaterial({
-        matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
-      });
-      const cylinderMaterial = new THREE.MeshMatcapMaterial({
-        matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
-      });
-      const sphereMaterial = new THREE.MeshMatcapMaterial({
-        matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
-      });
-      const donutMaterial = new THREE.MeshMatcapMaterial({
-        matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
-      });
-
-      const box = new THREE.Mesh(boxGeometry, boxMaterial);
-      const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-      const donut = new THREE.Mesh(donutGeometry, donutMaterial);
-
-      this.scene.add(box, donut, sphere, cylinder);
-    }
-
-    //Positioning objects
-    if (this.inputX && this.inputY && this.inputZ) {
-      this.scene.children.forEach((opt3d) => {
-        if (!opt3d.isMesh) {
-          return;
-        }
-        const scale = Math.random() - 0.7;
-        //TODO Get values from inputs
-        opt3d.position.x = randomNumber(-1, 1) * this.inputX;
-        opt3d.position.y = randomNumber(-1, 1) * this.inputY;
-        opt3d.position.z = randomNumber(-1, 1) * this.inputZ;
-
-        opt3d.userData.defaultPosition = opt3d.position.clone();
-
-        opt3d.scale.setScalar(scale);
-      });
-    }
 
     //Explosion
     let currentState = 'explosion';
@@ -107,11 +66,50 @@ class InteractiveObjects {
     document.querySelector('.explode_btn').addEventListener('click', () => explosionControl(), false);
 
     const create = () => {
-      this.inputX = document.getElementById('x_input').value;
-      this.inputY = document.getElementById('y_input').value;
-      this.inputZ = document.getElementById('y_input').value;
+      const inputX = (this.inputX = document.getElementById('x_input').value);
+      const inputY = (this.inputY = document.getElementById('y_input').value);
+      const inputZ = (this.inputZ = document.getElementById('y_input').value);
 
-      return inputX, inputY, inputZ;
+      for (let i = 0; i < (count * (+inputX + +inputY + +inputZ)) / 10; i++) {
+        const randomTextureNumber = Math.floor(Math.random() * 10 + 1.5);
+
+        const boxMaterial = new THREE.MeshMatcapMaterial({
+          matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
+        });
+        const cylinderMaterial = new THREE.MeshMatcapMaterial({
+          matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
+        });
+        const sphereMaterial = new THREE.MeshMatcapMaterial({
+          matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
+        });
+        const donutMaterial = new THREE.MeshMatcapMaterial({
+          matcap: textureLoader.load(`/textures/${randomTextureNumber}.png`),
+        });
+
+        const box = new THREE.Mesh(boxGeometry, boxMaterial);
+        const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        const donut = new THREE.Mesh(donutGeometry, donutMaterial);
+
+        this.scene.add(box, donut, sphere, cylinder);
+      }
+
+      if (this.inputX && this.inputY && this.inputZ) {
+        //Positioning objects
+        this.scene.children.forEach((opt3d) => {
+          if (!opt3d.isMesh) {
+            return;
+          }
+          const scale = Math.random() - 0.5;
+
+          opt3d.position.x = randomNumber(-1, 1) * this.inputX;
+          opt3d.position.y = randomNumber(-1, 1) * this.inputY;
+          opt3d.position.z = randomNumber(-1, 1) * this.inputZ;
+          opt3d.userData.defaultPosition = opt3d.position.clone();
+
+          opt3d.scale.setScalar(scale);
+        });
+      }
     };
     document.querySelector('.create_btn').addEventListener('click', () => create(), false);
   }
